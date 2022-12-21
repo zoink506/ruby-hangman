@@ -1,3 +1,5 @@
+require './Game.rb'
+
 class Menu
   def initialize
     menu()
@@ -7,12 +9,10 @@ class Menu
   def menu()
     print_menu()
     player_input = get_input()
-    if player_input == '1'
-      # Start a new game from scratch
-      puts 'is a 1'
-    elsif player_input == '2'
-      # Start a new game, loading from a file
-      puts 'is a 2'
+    if player_input == '1' # Start a new game from scratch
+      Game.new(false)
+    elsif player_input == '2' # Start a new game, loading from a file
+      Game.new(true)
     end
   end
 
@@ -24,7 +24,8 @@ class Menu
   def get_input()
     input = gets.chomp()
     input_valid = validate_input?(input)
-    get_input() if !input_valid
+    input = get_input() if !input_valid
+    return input
   end
 
   def validate_input?(input)
