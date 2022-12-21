@@ -20,9 +20,22 @@ class Game
 
   private
   def play_game
-    #input_obj = PlayerInput.new
-    round_display()
-    chosen_character = round_input()
-    p chosen_character
+    guesses = 0
+    mistakes = 0
+
+    while @letters_chosen.length <= 7 # CHANGE THIS TO TRACK AMOUNT OF MISTAKES MADE AND IF WORD HASNT BEEN GUESSED YET
+      #input_obj = PlayerInput.new
+      round_display()
+      chosen_character = round_input(@letters_chosen)
+
+      @letters_chosen << chosen_character if !@letters_chosen.include?(chosen_character)
+
+      show_feedback(@word, @letters_chosen)
+      p @letters_chosen
+    end
+  end
+
+  def check_word_complete(word, letters_chosen)
+
   end
 end

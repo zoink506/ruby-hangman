@@ -1,9 +1,9 @@
 module PlayerInput
   public
-  def round_input
+  def round_input(letters_chosen)
     input = gets.chomp()
-    input_valid = validate_round_input(input)
-    input = round_input() if !input_valid
+    input_valid = validate_round_input(input, letters_chosen)
+    input = round_input(letters_chosen) if !input_valid
     return input
   end
 
@@ -16,6 +16,19 @@ module PlayerInput
     input_valid = validate_menu_input?(input)
     input = menu_input() if !input_valid
     return input
+  end
+
+  def show_feedback(word_array, letters_chosen)
+    word_array.each do |char|
+      if letters_chosen.include?(char)
+        # show the letter
+        print "#{char} "
+      else
+        # show an underscore_
+        print "_ "
+      end
+    end
+    print "\n"
   end
 
   private
@@ -32,10 +45,10 @@ module PlayerInput
     false
   end
 
-  def validate_round_input(input)
+  def validate_round_input(input, letters_chosen)
     # check that input is between a-z/A-Z
     if input.length == 1
-      return true if (input.ord >= 65 && input.ord <= 90) || (input.ord >= 97 && input.ord <= 122)
+      return true if ((input.ord >= 65 && input.ord <= 90) || (input.ord >= 97 && input.ord <= 122)) && !letters_chosen.include?(input)
     end
     false
   end
