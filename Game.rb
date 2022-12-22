@@ -10,32 +10,52 @@ class Game
       puts "GAME LOADING"
     else
       # create game from scratch
-      puts "GAME STARTING"
       @word = @file_handler.get_word.split('')
-      @letters_chosen = Array.new
-      p @word
+      #@word = ['t', 'a', 's', 't', 'e']
+      @letters_correct = Array.new
+      @letters_mistakes = Array.new
+      #p @word
       play_game()
     end
   end
 
   private
   def play_game
+    system("clear") || system("cls")
+    puts "\nGAME STARTED!\nTo save your game, type 'save' at any time. To exit the game, type 'exit' at any time.\n\n"
     guesses = 0
     mistakes = 0
 
-    while @letters_chosen.length <= 7 # CHANGE THIS TO TRACK AMOUNT OF MISTAKES MADE AND IF WORD HASNT BEEN GUESSED YET
-      #input_obj = PlayerInput.new
+    while !check_word_complete(@word, @letters_correct)
       round_display()
-      chosen_character = round_input(@letters_chosen)
+      show_feedback(@word, @letters_correct, @letters_mistakes)
+      chosen_character = round_input(@letters_correct + @letters_mistakes) # player cannot type a character from the mistakes or correct list
 
-      @letters_chosen << chosen_character if !@letters_chosen.include?(chosen_character)
+      
+      if @word.include?(chosen_character) 
+        @letters_correct << chosen_character
+      else
+        @letters_mistakes << chosen_character
+      end
 
-      show_feedback(@word, @letters_chosen)
-      p @letters_chosen
+      break if @letters_mistakes.length >= 7
+    end
+
+    show_feedback(@word, @letters_correct, @letters_mistakes)
+
+    if check_word_complete(@word, @letters_correct)
+      puts "YOU WIN!"
+    else
+      puts "YOU LOSE!"
+      puts "The word was: #{@word.join('')}"
     end
   end
 
   def check_word_complete(word, letters_chosen)
-
+    # Check if the arrays are equal
+    #p "letters_chosen: #{letters_chosen.uniq.sort}"
+    #p "word: #{word.uniq.sort}"
+    return true if letters_chosen.uniq.sort == word.uniq.sort
+    false
   end
 end

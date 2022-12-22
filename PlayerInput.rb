@@ -8,7 +8,7 @@ module PlayerInput
   end
 
   def round_display
-    puts 'Type a single letter to choose: '
+    puts "Enter a letter: "
   end
 
   def menu_input
@@ -18,7 +18,7 @@ module PlayerInput
     return input
   end
 
-  def show_feedback(word_array, letters_chosen)
+  def show_feedback(word_array, letters_chosen, letters_mistakes)
     word_array.each do |char|
       if letters_chosen.include?(char)
         # show the letter
@@ -28,7 +28,11 @@ module PlayerInput
         print "_ "
       end
     end
-    print "\n"
+
+    print "      Mistakes: "
+    letters_mistakes.each { |mistake| print "#{mistake} " }
+    print "\n\n"
+
   end
 
   private
@@ -47,8 +51,11 @@ module PlayerInput
 
   def validate_round_input(input, letters_chosen)
     # check that input is between a-z/A-Z
+
+    return true if input == 'save'
+    return true if input == 'exit'
     if input.length == 1
-      return true if ((input.ord >= 65 && input.ord <= 90) || (input.ord >= 97 && input.ord <= 122)) && !letters_chosen.include?(input)
+      return true if (input.ord >= 97 && input.ord <= 122) && !letters_chosen.include?(input)
     end
     false
   end
