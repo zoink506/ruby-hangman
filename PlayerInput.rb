@@ -1,6 +1,7 @@
 module PlayerInput
   public
   def round_input(letters_chosen)
+    print ' '
     input = gets.chomp()
     input_valid = validate_round_input(input, letters_chosen)
     input = round_input(letters_chosen) if !input_valid
@@ -8,10 +9,11 @@ module PlayerInput
   end
 
   def round_display
-    puts "Enter a letter: "
+    puts " Enter a letter: "
   end
 
   def menu_input
+    print ' '
     input = gets.chomp()
     input_valid = validate_menu_input?(input)
     input = menu_input() if !input_valid
@@ -19,6 +21,7 @@ module PlayerInput
   end
 
   def show_feedback(word_array, letters_chosen, letters_mistakes)
+    print ' '
     word_array.each do |char|
       if letters_chosen.include?(char)
         # show the letter

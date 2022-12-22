@@ -22,7 +22,7 @@ class Menu
   end
 
   def print_menu
-    puts "Welcome to Hangman"
-    puts "To create a new game, type 1\nTo load a saved game, type 2"
+    puts " Welcome to Hangman"
+    puts " To create a new game, type 1\n To load a saved game, type 2"
   end
 end

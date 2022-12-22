@@ -1,12 +1,17 @@
 ---
 :word:
-- t
-- i
-- g
-- e
-- r
-:letters_correct:
-- e
-- i
-:letters_mistakes:
+- p
+- l
 - a
+- t
+- f
+- o
+- r
+- m
+:letters_correct:
+- a
+- o
+:letters_mistakes:
+- e
+- i
+- u
