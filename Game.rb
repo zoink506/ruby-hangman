@@ -2,15 +2,19 @@ require './FileHandler.rb'
 require './PlayerInput.rb'
 
 class Game
+  include FileHandler
   include PlayerInput
-  def initialize(load_game)
-    @file_handler = FileHandler.new
+  def initialize(load_game, word = nil, letters_correct = nil, letters_mistakes = nil)
     if load_game
       # must load the game first
       puts "GAME LOADING"
+      @word = word
+      @letters_correct = letters_correct
+      @letters_mistakes = letters_mistakes
+      play_game()
     else
       # create game from scratch
-      @word = @file_handler.get_word.split('')
+      @word = get_word().split('')
       #@word = ['t', 'a', 's', 't', 'e']
       @letters_correct = Array.new
       @letters_mistakes = Array.new
@@ -33,8 +37,8 @@ class Game
       when 'exit'
         break
       when 'save'
-        @file_handler.save_game(@word, @letters_correct, @letters_mistakes)
-        puts "Game Saved.\n"
+        save_game(@word, @letters_correct, @letters_mistakes)
+        puts "Game Saved.\n\n"
       else
         if @word.include?(chosen_character) 
           @letters_correct << chosen_character

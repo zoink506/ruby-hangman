@@ -1,7 +1,9 @@
 require './Game.rb'
 require './PlayerInput.rb'
+require './FileHandler.rb'
 
 class Menu
+  include FileHandler
   include PlayerInput
   def initialize
     menu()
@@ -14,7 +16,8 @@ class Menu
     if player_input == '1' # Start a new game from scratch
       Game.new(false)
     elsif player_input == '2' # Start a new game, loading from a file
-      Game.new(true)
+      game_hash = load_game_hash()
+      Game.new(true, game_hash[:word], game_hash[:letters_correct], game_hash[:letters_mistakes])
     end
   end
 

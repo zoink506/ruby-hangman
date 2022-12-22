@@ -1,6 +1,6 @@
 require 'yaml'
 
-class FileHandler
+module FileHandler
   def get_word
     desired_line = rand(0..9893)
     line_counter = 0
@@ -30,5 +30,12 @@ class FileHandler
     savefile = File.open('savefile.yml', 'w')
     savefile.write(save_hash.to_yaml)
     savefile.close
+  end
+
+  def load_game_hash()
+    savefile = File.open('savefile.yml', 'r')
+    save_hash = YAML.load(savefile)
+    savefile.close
+    save_hash
   end
 end
