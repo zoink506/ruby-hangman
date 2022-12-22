@@ -26,7 +26,7 @@ module FileHandler
 
   def save_game(word, letters_correct, letters_mistakes)
     save_hash = { :word => word, :letters_correct => letters_correct, :letters_mistakes => letters_mistakes }
-    p save_hash
+    #p save_hash
     savefile = File.open('savefile.yml', 'w')
     savefile.write(save_hash.to_yaml)
     savefile.close

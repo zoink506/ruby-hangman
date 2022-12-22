@@ -27,10 +27,10 @@ class Game
   def play_game
     system("clear") || system("cls")
     puts "\nGAME STARTED!\nTo save your game, type 'save' at any time. To exit the game, type 'exit' at any time.\n\n"
+    show_feedback(@word, @letters_correct, @letters_mistakes)
 
     while !check_word_complete(@word, @letters_correct)
       round_display()
-      show_feedback(@word, @letters_correct, @letters_mistakes)
       chosen_character = round_input(@letters_correct + @letters_mistakes) # player cannot type a character from the mistakes or correct list
 
       case chosen_character
@@ -42,8 +42,10 @@ class Game
       else
         if @word.include?(chosen_character) 
           @letters_correct << chosen_character
+          show_feedback(@word, @letters_correct, @letters_mistakes)
         else
           @letters_mistakes << chosen_character
+          show_feedback(@word, @letters_correct, @letters_mistakes)
         end
 
         break if @letters_mistakes.length >= 7
@@ -51,21 +53,18 @@ class Game
       
     end
 
-    show_feedback(@word, @letters_correct, @letters_mistakes)
-    if check_word_complete(@word, @letters_correct)
-      puts "YOU WIN!"
-    else
-      puts "YOU LOSE!"
-      puts "The word was: #{@word.join('')}"
-    end
+    #show_feedback(@word, @letters_correct, @letters_mistakes)
+    puts "\nGAME OVER"
+    # Only show the word if the game has been won or lost, not when exiting with 'exit' command
+    puts "The word was: #{@word}" if check_word_complete(@word, @letters_correct) == true || @letters_mistakes.length >= 7
 
 
   end
 
   def check_word_complete(word, letters_chosen)
     # Check if the arrays are equal
-    #p "letters_chosen: #{letters_chosen.uniq.sort}"
-    #p "word: #{word.uniq.sort}"
+    #p letters_chosen
+    #p "word: #{word}"
     return true if letters_chosen.uniq.sort == word.uniq.sort
     false
   end
