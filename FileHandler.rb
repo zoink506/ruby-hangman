@@ -1,3 +1,5 @@
+require 'yaml'
+
 class FileHandler
   def get_word
     desired_line = rand(0..9893)
@@ -5,7 +7,7 @@ class FileHandler
     random_word = ''
 
     reached_line = false
-    IO.foreach('10000-words.txt') do |line|
+    IO.foreach('10000-words.txt') do |line| # does not slurp
       if line_counter >= desired_line
         if line.chomp.length >= 5 && line.chomp.length <= 12
           random_word = line.chomp
@@ -22,7 +24,11 @@ class FileHandler
     end
   end
 
-  def read_word_array(save_file)
-    
+  def save_game(word, letters_correct, letters_mistakes)
+    save_hash = { :word => word, :letters_correct => letters_correct, :letters_mistakes => letters_mistakes }
+    p save_hash
+    savefile = File.open('savefile.yml', 'w')
+    savefile.write(save_hash.to_yaml)
+    savefile.close
   end
 end

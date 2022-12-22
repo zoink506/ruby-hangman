@@ -23,32 +23,39 @@ class Game
   def play_game
     system("clear") || system("cls")
     puts "\nGAME STARTED!\nTo save your game, type 'save' at any time. To exit the game, type 'exit' at any time.\n\n"
-    guesses = 0
-    mistakes = 0
 
     while !check_word_complete(@word, @letters_correct)
       round_display()
       show_feedback(@word, @letters_correct, @letters_mistakes)
       chosen_character = round_input(@letters_correct + @letters_mistakes) # player cannot type a character from the mistakes or correct list
 
-      
-      if @word.include?(chosen_character) 
-        @letters_correct << chosen_character
+      case chosen_character
+      when 'exit'
+        break
+      when 'save'
+        @file_handler.save_game(@word, @letters_correct, @letters_mistakes)
+        puts "Game Saved.\n"
       else
-        @letters_mistakes << chosen_character
-      end
+        if @word.include?(chosen_character) 
+          @letters_correct << chosen_character
+        else
+          @letters_mistakes << chosen_character
+        end
 
-      break if @letters_mistakes.length >= 7
+        break if @letters_mistakes.length >= 7
+      end
+      
     end
 
     show_feedback(@word, @letters_correct, @letters_mistakes)
-
     if check_word_complete(@word, @letters_correct)
       puts "YOU WIN!"
     else
       puts "YOU LOSE!"
       puts "The word was: #{@word.join('')}"
     end
+
+
   end
 
   def check_word_complete(word, letters_chosen)
